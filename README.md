@@ -154,10 +154,13 @@ window.__shell_listen("acp:session-update", (payload) => {
 });
 ```
 
-See [`examples/`](./examples) for runnable samples. For the full JS API
-and command reference, see [`docs/frontend-bridge.md`](./docs/frontend-bridge.md).
-For the sandbox's threat model and exact guarantees, see
-[`docs/sandbox.md`](./docs/sandbox.md).
+See [`examples/`](./examples) for runnable samples.
+
+## Docs
+
+- [`docs/frontend-bridge.md`](./docs/frontend-bridge.md) — full JS API and IPC command reference
+- [`docs/sandbox.md`](./docs/sandbox.md) — sandbox threat model and exact guarantees
+- [`docs/cookbook.md`](./docs/cookbook.md) — practical patterns (state sharing, image rendering, Tauri migration, custom AI, …)
 
 ## Non-goals
 
