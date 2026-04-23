@@ -9,13 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.1](https://github.com/r-hashi01/Fude/compare/v0.1.0...v0.1.1) - 2026-04-23
 
-### Other
+### Fixed
 
-- *(deps)* Update tao requirement from 0.30 to 0.35
-- Merge pull request #3 from r-hashi01/dependabot/cargo/wry-0.55
-- Merge pull request #2 from r-hashi01/dependabot/cargo/rfd-0.17
-- Merge pull request #1 from r-hashi01/dependabot/github_actions/actions/checkout-6.0.2
-- add release-plz for automated releases
+- Adapt to the wry 0.55 `WebViewBuilder` API: the window is passed to
+  `.build(&window)` instead of `::new(&window)`, and custom-protocol
+  handlers receive a `WebViewId` first argument.
+- Align the Linux-specific `rfd` target override with the base 0.17
+  requirement so the `gtk3` backend feature is actually applied.
+
+### Changed
+
+- Bump `wry` 0.45 → 0.55, `tao` 0.30 → 0.35, `rfd` 0.15 → 0.17.
+- Bump `actions/checkout` (pinned to v6.0.2 SHA) in CI.
+- Dependabot now ignores all `version-update:semver-major` bumps for both
+  `cargo` and `github-actions`; major bumps are a deliberate human action.
+- Document `main` branch protection (PR + CI required) in `CLAUDE.md`.
+
+### Added
+
+- `release-plz` GitHub Actions workflow for automated version bumps,
+  CHANGELOG generation, tagging, and crates.io publishing driven by
+  conventional-commit history.
 
 ## [0.1.0] — 2026-04-23
 
