@@ -462,10 +462,10 @@ fn run(app: App) -> Result<(), Box<dyn std::error::Error>> {
     let asset_root_for_protocol = asset_root.clone();
     let fs_for_protocol = ctx.fs.clone();
 
-    let webview = WebViewBuilder::new(&window)
+    let webview = WebViewBuilder::new()
         .with_url("asset://localhost/")
         .with_initialization_script(IPC_INIT)
-        .with_custom_protocol("asset".into(), move |req| {
+        .with_custom_protocol("asset".into(), move |_id, req| {
             assets::serve(
                 &asset_root_for_protocol,
                 fs_for_protocol.as_ref(),
@@ -511,7 +511,7 @@ fn run(app: App) -> Result<(), Box<dyn std::error::Error>> {
                 let _ = proxy.send_event(UserEvent::IpcReply(js));
             });
         })
-        .build()?;
+        .build(&window)?;
 
     event_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Wait;
