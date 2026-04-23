@@ -8,6 +8,7 @@ Rust "brush" framework — minimal shell for AI-native document editors. Narrow 
 - Tests: public API → `tests/` integration. Private helpers → inline `#[cfg(test)] mod tests`.
 - TDD: write/adjust tests first; aim for publishable quality (clippy strict, fmt clean).
 - Deps: prefer recent versions/editions, but never adopt a release under 2 weeks old (supply-chain quarantine).
+- GitHub Actions: always pin `uses:` to a full commit SHA with the version as a trailing comment (`# v4.3.1`). Never tag/branch refs — they can be moved.
 
 ## Gotchas
 - macOS `/tmp` canonicalizes to `/private/tmp` → sandbox allow-list rejects it. Use `$HOME/.fude-test-scratch` for tests that touch real FS.
