@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1](https://github.com/r-hashi01/Fude/compare/v0.1.0...v0.1.1) - 2026-04-23
+
+### Other
+
+- *(deps)* Update tao requirement from 0.30 to 0.35
+- Merge pull request #3 from r-hashi01/dependabot/cargo/wry-0.55
+- Merge pull request #2 from r-hashi01/dependabot/cargo/rfd-0.17
+- Merge pull request #1 from r-hashi01/dependabot/github_actions/actions/checkout-6.0.2
+- add release-plz for automated releases
+
 ## [0.1.0] — 2026-04-23
 
 Initial public release. Extracted and generalised from the
