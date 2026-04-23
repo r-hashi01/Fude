@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # Rust crates. Weekly cadence; review before merging to respect the
+  # 14-day supply-chain quarantine (see CLAUDE.md).
+  - package-ecosystem: cargo
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - rust
+    groups:
+      patch-updates:
+        update-types:
+          - patch
+      minor-updates:
+        update-types:
+          - minor
+
+  # GitHub Actions. Pinned to commit SHAs, so this auto-bumps them with
+  # a commit message referencing the version.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - ci
