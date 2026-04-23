@@ -154,7 +154,10 @@ window.__shell_listen("acp:session-update", (payload) => {
 });
 ```
 
-See [`examples/`](./examples) for runnable samples.
+See [`examples/`](./examples) for runnable samples. For the full JS API
+and command reference, see [`docs/frontend-bridge.md`](./docs/frontend-bridge.md).
+For the sandbox's threat model and exact guarantees, see
+[`docs/sandbox.md`](./docs/sandbox.md).
 
 ## Non-goals
 
