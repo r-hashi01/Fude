@@ -1,6 +1,6 @@
 [package]
 name = "fude-rs"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.93"
 description = "The brush for AI-native document editors — a minimal wry+tao shell that gives a web frontend exactly what it needs to co-write with an AI. Ships IPC bridge, path-sandboxed FS, native dialogs, PTY + ACP."
