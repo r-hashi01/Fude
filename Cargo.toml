@@ -1,5 +1,5 @@
 [package]
-name = "fude"
+name = "fude-rs"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.93"
@@ -7,7 +7,7 @@ description = "The brush for AI-native document editors — a minimal wry+tao sh
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/r-hashi01/Fude"
 homepage = "https://github.com/r-hashi01/Fude"
-documentation = "https://docs.rs/fude"
+documentation = "https://docs.rs/fude-rs"
 readme = "README.md"
 keywords = ["webview", "desktop", "ai", "agent", "editor"]
 categories = ["gui", "web-programming"]

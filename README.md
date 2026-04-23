@@ -1,9 +1,9 @@
 # fude (筆)
 
-[![crates.io](https://img.shields.io/crates/v/fude.svg)](https://crates.io/crates/fude)
-[![docs.rs](https://docs.rs/fude/badge.svg)](https://docs.rs/fude)
+[![crates.io](https://img.shields.io/crates/v/fude-rs.svg)](https://crates.io/crates/fude-rs)
+[![docs.rs](https://docs.rs/fude-rs/badge.svg)](https://docs.rs/fude-rs)
 [![CI](https://github.com/r-hashi01/Fude/actions/workflows/ci.yml/badge.svg)](https://github.com/r-hashi01/Fude/actions/workflows/ci.yml)
-[![MIT/Apache 2.0 licensed](https://img.shields.io/crates/l/fude.svg)](#license)
+[![MIT/Apache 2.0 licensed](https://img.shields.io/crates/l/fude-rs.svg)](#license)
 
 **The brush for AI-native document editors.** A minimal Rust shell that gives a
 web frontend exactly what it needs to co-write with an AI — and nothing else.
