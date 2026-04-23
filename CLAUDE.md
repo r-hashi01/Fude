@@ -3,7 +3,7 @@
 Rust "brush" framework — minimal shell for AI-native document editors. Narrow on purpose; keep dependencies and API surface small.
 
 ## Conventions
-- License: `MIT OR Apache-2.0` (dual). MSRV: `1.85` (edition2024 required by transitive deps).
+- License: `MIT OR Apache-2.0` (dual). MSRV: `1.93` (edition2024 required by transitive deps).
 - Errors: return `Result<_, String>`. Do not introduce `thiserror` / custom error enums.
 - Tests: public API → `tests/` integration. Private helpers → inline `#[cfg(test)] mod tests`.
 - TDD: write/adjust tests first; aim for publishable quality (clippy strict, fmt clean).

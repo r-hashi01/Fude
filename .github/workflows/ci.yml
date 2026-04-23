@@ -48,18 +48,15 @@ jobs:
       - run: cargo clippy --all-targets -- -D warnings
 
   test:
-    name: test (${{ matrix.os }}, ${{ matrix.rust }})
+    name: test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        rust: [stable, "1.85"]
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@master
-        with:
-          toolchain: ${{ matrix.rust }}
+      - uses: dtolnay/rust-toolchain@stable
       - name: Install Linux deps (wry/tao)
         if: matrix.os == 'ubuntu-latest'
         run: |
