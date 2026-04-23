@@ -1,0 +1,25 @@
+[workspace]
+# Rewrite CHANGELOG.md based on conventional-commit messages since the
+# last release.
+changelog_update = true
+
+# Create a GitHub release whose body is the new CHANGELOG section.
+git_release_enable = true
+git_release_body = """
+{{ changelog }}
+
+---
+
+Install:
+
+```toml
+[dependencies]
+fude-rs = "{{ version }}"
+```
+"""
+
+# Label the Release PR so it's easy to filter.
+pr_labels = ["release"]
+
+# Dependabot handles dep bumps; release-plz should stay out of that.
+dependencies_update = false
