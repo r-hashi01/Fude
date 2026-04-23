@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>acp-chat</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, system-ui, sans-serif;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      height: 100vh;
+    }
+    header {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #8884;
+      align-items: center;
+      font-size: 13px;
+    }
+    #cwd { flex: 1; font-family: ui-monospace, monospace; opacity: 0.7; }
+    button, input, textarea {
+      font: inherit;
+      padding: 6px 10px;
+      border: 1px solid #8888;
+      border-radius: 4px;
+      background: transparent;
+      color: inherit;
+    }
+    button { cursor: pointer; }
+    button:hover:not(:disabled) { background: #8882; }
+    button:disabled { opacity: 0.4; cursor: default; }
+    #log {
+      overflow-y: auto;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+    .msg { margin-bottom: 12px; }
+    .msg .who { font-size: 11px; opacity: 0.6; margin-bottom: 2px; }
+    .msg.user .who { color: #48c; }
+    .msg.agent .who { color: #5a4; }
+    .msg.sys .who { color: #a84; }
+    form {
+      display: flex;
+      gap: 8px;
+      padding: 10px 14px;
+      border-top: 1px solid #8884;
+    }
+    form textarea { flex: 1; min-height: 40px; resize: vertical; }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="choose">Choose project folder…</button>
+    <span id="cwd">no folder selected</span>
+    <button id="init" disabled>Start session</button>
+  </header>
+
+  <div id="log"></div>
+
+  <form id="send-form">
+    <textarea id="input" placeholder="session not started" disabled></textarea>
+    <button id="send" disabled>Send</button>
+  </form>
+
+  <script>
+    const listen = window.__shell_listen;
+    const log = document.getElementById("log");
+    const cwdEl = document.getElementById("cwd");
+    const initBtn = document.getElementById("init");
+    const input = document.getElementById("input");
+    const sendBtn = document.getElementById("send");
+
+    let cwd = null;
+    let sessionId = null;
+
+    function push(who, text) {
+      const div = document.createElement("div");
+      div.className = "msg " + who;
+      div.innerHTML = `<div class="who">${who}</div><div class="body"></div>`;
+      div.querySelector(".body").textContent = text;
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+      return div.querySelector(".body");
+    }
+
+    listen("acp:session-update", (payload) => {
+      // The payload shape mirrors ACP's SessionUpdate. We surface the
+      // common "agent_message_chunk" case; everything else is dumped raw.
+      const u = payload?.update ?? payload;
+      if (u?.sessionUpdate === "agent_message_chunk" && u?.content?.text) {
+        push("agent", u.content.text);
+      } else {
+        push("sys", JSON.stringify(u, null, 2));
+      }
+    });
+
+    document.getElementById("choose").onclick = async () => {
+      const picked = await window.__shell_ipc("dialog_open", { directory: true });
+      if (!picked) return;
+      await window.__shell_ipc("allow_dir", { path: picked });
+      cwd = picked;
+      cwdEl.textContent = picked;
+      initBtn.disabled = false;
+    };
+
+    initBtn.onclick = async () => {
+      initBtn.disabled = true;
+      try {
+        push("sys", "initializing ACP adapter…");
+        await window.__shell_ipc("acp_initialize");
+        push("sys", "starting new session…");
+        const res = await window.__shell_ipc("acp_new_session", { cwd });
+        sessionId = res?.sessionId ?? res?.session_id ?? res;
+        push("sys", `session ready: ${sessionId}`);
+        input.disabled = false;
+        sendBtn.disabled = false;
+        input.focus();
+      } catch (e) {
+        push("sys", `error: ${e.message || e}`);
+        initBtn.disabled = false;
+      }
+    };
+
+    document.getElementById("send-form").onsubmit = async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text || !sessionId) return;
+      push("user", text);
+      input.value = "";
+      try {
+        await window.__shell_ipc("acp_prompt", { sessionId, prompt: text });
+      } catch (err) {
+        push("sys", `error: ${err.message || err}`);
+      }
+    };
+  </script>
+</body>
+</html>

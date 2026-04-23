@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ipc-hello</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0;
+      padding: 32px;
+      font-family: -apple-system, system-ui, sans-serif;
+      max-width: 640px;
+    }
+    h1 { font-size: 18px; margin: 0 0 24px; }
+    section { margin-bottom: 24px; }
+    label { display: block; font-size: 12px; opacity: 0.7; margin-bottom: 4px; }
+    button, input {
+      font: inherit;
+      padding: 6px 10px;
+      border: 1px solid #8888;
+      border-radius: 4px;
+      background: transparent;
+      color: inherit;
+    }
+    button { cursor: pointer; }
+    button:hover { background: #8882; }
+    .out {
+      font-family: ui-monospace, monospace;
+      font-size: 12px;
+      padding: 8px;
+      background: #8881;
+      border-radius: 4px;
+      min-height: 1.5em;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>ipc-hello</h1>
+
+  <section>
+    <label>ping → server returns "pong"</label>
+    <button id="ping">Ping</button>
+    <div class="out" id="ping-out"></div>
+  </section>
+
+  <section>
+    <label>echo → server returns exactly what you sent</label>
+    <input id="echo-input" value='{"hello":"world"}' size="40" />
+    <button id="echo">Echo</button>
+    <div class="out" id="echo-out"></div>
+  </section>
+
+  <section>
+    <label>increment → counter lives in Rust, persists across clicks</label>
+    <button id="inc">Increment</button>
+    <div class="out" id="inc-out">0</div>
+  </section>
+
+  <script>
+    document.getElementById("ping").addEventListener("click", async () => {
+      const r = await window.__shell_ipc("ping");
+      document.getElementById("ping-out").textContent = JSON.stringify(r);
+    });
+
+    document.getElementById("echo").addEventListener("click", async () => {
+      const raw = document.getElementById("echo-input").value;
+      let args;
+      try { args = JSON.parse(raw); } catch { args = { raw }; }
+      const r = await window.__shell_ipc("echo", args);
+      document.getElementById("echo-out").textContent = JSON.stringify(r, null, 2);
+    });
+
+    document.getElementById("inc").addEventListener("click", async () => {
+      const r = await window.__shell_ipc("increment");
+      document.getElementById("inc-out").textContent = r;
+    });
+  </script>
+</body>
+</html>

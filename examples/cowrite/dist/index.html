@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>cowrite</title>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, system-ui, sans-serif;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      height: 100vh;
+    }
+    header {
+      display: flex;
+      gap: 8px;
+      padding: 8px 12px;
+      border-bottom: 1px solid #8884;
+      align-items: center;
+    }
+    button {
+      font: inherit;
+      padding: 4px 10px;
+      border: 1px solid #8888;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+    }
+    button:hover { background: #8882; }
+    button:disabled { opacity: 0.4; cursor: default; }
+    #path { flex: 1; font-family: ui-monospace, monospace; font-size: 12px; opacity: 0.7; }
+    textarea {
+      border: 0;
+      outline: 0;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: none;
+      background: transparent;
+      color: inherit;
+    }
+    footer {
+      padding: 6px 12px;
+      border-top: 1px solid #8884;
+      font-size: 12px;
+      opacity: 0.7;
+      font-family: ui-monospace, monospace;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="open">Open…</button>
+    <button id="save" disabled>Save</button>
+    <button id="save-as">Save As…</button>
+    <span id="path">no file</span>
+  </header>
+  <textarea id="editor" placeholder="Open a markdown file, or start typing and Save As…"></textarea>
+  <footer id="status">—</footer>
+
+  <script>
+    const editor = document.getElementById("editor");
+    const pathEl = document.getElementById("path");
+    const statusEl = document.getElementById("status");
+    const saveBtn = document.getElementById("save");
+
+    let currentPath = null;
+    let dirty = false;
+
+    function markDirty(d) {
+      dirty = d;
+      saveBtn.disabled = !currentPath || !dirty;
+      pathEl.textContent = (currentPath || "no file") + (dirty ? " •" : "");
+    }
+
+    async function refreshStatus() {
+      const { chars, words, lines } = await window.__shell_ipc("stat", { text: editor.value });
+      statusEl.textContent = `${lines} lines · ${words} words · ${chars} chars`;
+    }
+
+    editor.addEventListener("input", () => {
+      markDirty(true);
+      refreshStatus();
+    });
+
+    document.getElementById("open").addEventListener("click", async () => {
+      const picked = await window.__shell_ipc("dialog_open", {
+        filters: [{ name: "Markdown", extensions: ["md", "markdown", "txt"] }],
+      });
+      if (!picked) return;
+      await window.__shell_ipc("allow_path", { path: picked });
+      const text = await window.__shell_ipc("read_file", { path: picked });
+      editor.value = text;
+      currentPath = picked;
+      markDirty(false);
+      refreshStatus();
+    });
+
+    saveBtn.addEventListener("click", async () => {
+      if (!currentPath) return;
+      await window.__shell_ipc("write_file", { path: currentPath, content: editor.value });
+      markDirty(false);
+    });
+
+    document.getElementById("save-as").addEventListener("click", async () => {
+      const picked = await window.__shell_ipc("dialog_save", {
+        filters: [{ name: "Markdown", extensions: ["md"] }],
+      });
+      if (!picked) return;
+      await window.__shell_ipc("allow_path", { path: picked });
+      await window.__shell_ipc("write_file", { path: picked, content: editor.value });
+      currentPath = picked;
+      markDirty(false);
+    });
+
+    refreshStatus();
+  </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(Cargo.lock)",
+      "Write(Cargo.lock)",
+      "Edit(LICENSE-MIT)",
+      "Edit(LICENSE-APACHE)",
+      "Edit(.github/workflows/**)",
+      "Write(.github/workflows/**)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": ".claude/hooks/fmt-rust.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+[package]
+name = "fude"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "The brush for AI-native document editors — a minimal wry+tao shell that gives a web frontend exactly what it needs to co-write with an AI. Ships IPC bridge, path-sandboxed FS, native dialogs, PTY + ACP."
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/r-hashi01/Fude"
+homepage = "https://github.com/r-hashi01/Fude"
+documentation = "https://docs.rs/fude"
+readme = "README.md"
+keywords = ["webview", "desktop", "ai", "agent", "editor"]
+categories = ["gui", "web-programming"]
+exclude = ["target/", ".github/", "CHANGELOG.md"]
+
+[lib]
+name = "fude"
+path = "src/lib.rs"
+
+[dependencies]
+wry = "0.45"
+tao = "0.30"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+rfd = { version = "0.15", default-features = false }
+portable-pty = "0.9"
+tokio = { version = "1", features = ["rt", "io-util", "process", "sync", "macros", "time"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+strip = true
+lto = "fat"
+codegen-units = 1
+opt-level = "z"
+panic = "abort"
+incremental = false
+
+[profile.release.package."*"]
+opt-level = "z"
