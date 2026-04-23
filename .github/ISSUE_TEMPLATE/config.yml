@@ -1,0 +1,19 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Feature idea or "should fude do X?"
+    url: https://github.com/r-hashi01/Fude/discussions/new?category=ideas
+    about: |
+      fude is narrow on purpose. New features and scope changes start as a
+      Discussion so we can agree on whether it belongs in fude or in the
+      app on top — before anyone writes code.
+  - name: Usage question or experience report
+    url: https://github.com/r-hashi01/Fude/discussions
+    about: |
+      How-do-I questions and "I tried to build X and hit Y" reports go to
+      Discussions. They're the highest-signal input for what to work on next.
+  - name: Security vulnerability
+    url: https://github.com/r-hashi01/Fude/security/advisories/new
+    about: |
+      Sandbox bypasses, symlink escapes, PTY policy breaks, etc. Please
+      report privately through a GitHub security advisory, not as a
+      public issue.
