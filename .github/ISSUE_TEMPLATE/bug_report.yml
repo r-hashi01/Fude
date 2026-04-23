@@ -1,0 +1,75 @@
+name: Bug report
+description: Something in fude is misbehaving.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Before you start:
+
+        - If you're not sure whether something is a bug or just a feature
+          gap, please use [Discussions](https://github.com/r-hashi01/Fude/discussions)
+          instead.
+        - If the issue has security implications (e.g. a sandbox bypass
+          or a symlink escape), please use
+          [private vulnerability reporting](https://github.com/r-hashi01/Fude/security/advisories/new)
+          instead of a public issue.
+
+  - type: input
+    id: version
+    attributes:
+      label: fude version
+      description: The `fude-rs` version or commit SHA you're on.
+      placeholder: "0.1.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      multiple: true
+      options:
+        - macOS
+        - Linux
+        - Windows (not yet officially supported)
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: |
+        The smallest snippet or sequence of steps that reproduces the bug.
+        A runnable example beats a description.
+      placeholder: |
+        1. Call `App::new(...).with_fs_sandbox().run()` with ...
+        2. From the frontend, invoke ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include any error strings, stack traces, or log output verbatim.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything else that might help — previous working version, related issues, etc.
+    validations:
+      required: false
