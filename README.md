@@ -161,6 +161,7 @@ See [`examples/`](./examples) for runnable samples.
 - [`docs/frontend-bridge.md`](./docs/frontend-bridge.md) — full JS API and IPC command reference
 - [`docs/sandbox.md`](./docs/sandbox.md) — sandbox threat model and exact guarantees
 - [`docs/cookbook.md`](./docs/cookbook.md) — practical patterns (state sharing, image rendering, Tauri migration, custom AI, …)
+- [`docs/ROADMAP.md`](./docs/ROADMAP.md) — where `fude` is headed (and what it won't grow into)
 
 ## Non-goals
 
