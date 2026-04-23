@@ -199,8 +199,8 @@ Feedback and issues welcome.
 
 ## Minimum supported Rust version
 
-Fude targets Rust **1.75** and newer. MSRV bumps are treated as a
-`minor`-version change.
+Fude targets Rust **1.85** and newer (edition2024 required by transitive
+deps). MSRV bumps are treated as a `minor`-version change.
 
 ## License
 

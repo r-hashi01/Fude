@@ -2,7 +2,7 @@
 name = "fude"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.75"
+rust-version = "1.85"
 description = "The brush for AI-native document editors — a minimal wry+tao shell that gives a web frontend exactly what it needs to co-write with an AI. Ships IPC bridge, path-sandboxed FS, native dialogs, PTY + ACP."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/r-hashi01/Fude"
