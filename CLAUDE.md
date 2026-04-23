@@ -10,6 +10,8 @@ Rust "brush" framework — minimal shell for AI-native document editors. Narrow 
 - Deps: prefer recent versions/editions, but never adopt a release under 2 weeks old (supply-chain quarantine).
 - GitHub Actions: always pin `uses:` to a full commit SHA with the version as a trailing comment (`# v4.3.1`). Never tag/branch refs — they can be moved.
 - Commits: use [Conventional Commits](https://www.conventionalcommits.org/) prefixes (`feat:`, `fix:`, `docs:`, `ci:`, `refactor:`, `test:`, `chore:`) — release-plz derives version bumps + CHANGELOG from these.
+- `main` is protected: every change goes through a PR and CI (fmt + clippy + test on both OSes + rustdoc) must pass before merge. Dependabot and release-plz PRs follow the same rule.
+- Dependabot proposes only patch/minor bumps. Major bumps are a deliberate human action — open a branch, port the code to the new API, run the full gate, then PR.
 
 ## Gotchas
 - macOS `/tmp` canonicalizes to `/private/tmp` → sandbox allow-list rejects it. Use `$HOME/.fude-test-scratch` for tests that touch real FS.

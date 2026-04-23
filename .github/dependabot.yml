@@ -1,7 +1,9 @@
 version: 2
 updates:
   # Rust crates. Weekly cadence; review before merging to respect the
-  # 14-day supply-chain quarantine (see CLAUDE.md).
+  # 14-day supply-chain quarantine (see CLAUDE.md). Major bumps are a
+  # human decision — they often carry breaking API changes (e.g. wry,
+  # tao, rfd) that require code updates in fude itself.
   - package-ecosystem: cargo
     directory: "/"
     schedule:
@@ -18,9 +20,14 @@ updates:
       minor-updates:
         update-types:
           - minor
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
 
   # GitHub Actions. Pinned to commit SHAs, so this auto-bumps them with
-  # a commit message referencing the version.
+  # a commit message referencing the version. Major bumps blocked too:
+  # action majors sometimes change inputs / outputs.
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
@@ -30,3 +37,7 @@ updates:
     labels:
       - dependencies
       - ci
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
