@@ -8,6 +8,11 @@
 **The brush for AI-native document editors.** A minimal Rust shell that gives a
 web frontend exactly what it needs to co-write with an AI — and nothing else.
 
+```text
+~3,000 lines of Rust. ~1 MB binary. Reads in an afternoon.
+Webview + sandboxed FS + PTY agents + ACP client. That is the whole scope.
+```
+
 ```rust
 use fude::App;
 
@@ -24,12 +29,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ## Why this exists
 
-Tauri and Electron are general-purpose. They carry runtime for every kind of
-desktop app. For the specific shape of *"an editor where a human and an AI
-agent edit the same document together"*, 90% of that weight is dead code.
+Tauri and Electron are general-purpose: their runtime covers every kind of
+desktop app. For *"one editor, one human, one agent, one document"*, most
+of that weight is dead code.
 
-Fude is the opposite move: pick one use case, ship only its primitives, stay
-under **~1 MB**.
+Fude takes the opposite bet — pick the single use case, ship only its
+primitives, and keep the whole thing small enough that you can read it
+before committing to it.
 
 |                   | Tauri 2                           | Electron   | **Fude**          |
 | ----------------- | --------------------------------- | ---------- | ----------------- |
@@ -179,7 +185,7 @@ You if:
 
 - You're building a note, markdown, prose, or notebook editor.
 - You want an AI to edit the document alongside the user.
-- You'd rather read ~2 000 lines of Rust than configure a framework.
+- You'd rather read ~3 000 lines of Rust than configure a framework.
 - A 1 MB binary matters to you.
 
 Not you if:
@@ -196,15 +202,12 @@ paper. Tauri chose 鳥居 (the gate) to name *"the entry point into a
 webview"*; Fude names *"the implement you write with"*. Narrower, more
 intimate, more honest about scope.
 
-## Status
+## Status & MSRV
 
-Pre-1.0. Extracted from a production app, but API may shift before 1.0.
-Feedback and issues welcome.
-
-## Minimum supported Rust version
-
-Fude targets Rust **1.93** and newer (edition2024 required by transitive
-deps). MSRV bumps are treated as a `minor`-version change.
+Pre-1.0. Extracted from a production app; the public API may still shift
+before 1.0 — see [`docs/ROADMAP.md`](./docs/ROADMAP.md). Rust **1.93+**
+(edition2024 required by transitive deps). MSRV bumps are treated as a
+minor-version change.
 
 ## License
 
