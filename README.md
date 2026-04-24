@@ -267,10 +267,10 @@ after the implement. Narrower, more intimate, more honest about scope.
 
 ## Status & MSRV
 
-Pre-1.0, extracted from a production app. The public API may still shift
+Pre-1.0. Extracted from a production app; the public API may still shift
 before 1.0 — see [`docs/ROADMAP.md`](./docs/ROADMAP.md). Rust **1.93+**
-(edition2024 required by transitive deps). MSRV bumps are a minor-version
-change.
+(edition2024 required by transitive deps). MSRV bumps are treated as a
+minor-version change.
 
 ## License
 
