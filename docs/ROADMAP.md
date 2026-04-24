@@ -66,6 +66,18 @@ Desktop-app table stakes + the guardrails a 1.0 deserves.
 - **1.0 criteria.** A concrete checklist: every `with_*` layer documented,
   IPC streams stable, Windows verified, surface locked, ACP out of
   experimental. Ship 1.0 when all boxes are ticked — not before.
+- **Protocol specification.** Publish `docs/PROTOCOL.md` describing the
+  wire format of the frontend IPC bridge, the ACP layer, and the sandbox
+  request/response envelopes as a language-agnostic spec. Today that
+  information only lives in the Rust types; extracting it is the
+  prerequisite for any non-Rust host.
+- **Cross-language host story (exploratory).** Once the protocol is
+  specified and 1.0 is out, investigate a `fude-host` companion binary
+  that speaks the protocol over stdio / socket, so application code can
+  live in TypeScript, Python, Go, or anything else. Native bindings
+  (napi-rs / PyO3 / cgo) stay out of scope until we have clear demand
+  and a proven stable core — maintaining four idiomatic APIs from a
+  one-person repo is a trap we don't want to walk into prematurely.
 
 ## Non-goals
 
@@ -81,6 +93,10 @@ Things `fude` will deliberately *not* grow into:
 - **A custom error type.** Handlers return `Result<_, String>` and will
   keep doing so. No `thiserror`, no enum explosion.
 - **Non-web frontends.** Webview only. No native-widget bridge.
+- **Per-language native SDKs, today.** No `napi-rs` / `PyO3` / `cgo`
+  bindings in this repo while the Rust surface is still moving. The
+  path we intend to open instead is a published protocol plus a single
+  `fude-host` binary any language can drive — see the Later section.
 
 ## How to propose changes
 
